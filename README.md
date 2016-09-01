@@ -1,7 +1,7 @@
 # Communary.ConsoleExtensions
 A set of helper functions for working in the PowerShell console.
 
-## functions
+## Functions
 - Get-SpecialFolder
 - Invoke-ColorizedFileListing (alias: 'c')
 - Invoke-Pause (alias: 'pause')
