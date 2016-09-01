@@ -1,6 +1,16 @@
 # Communary.ConsoleExtensions
 # Author: Øyvind Kallstad
 
+Add-Type -MemberDefinition @"
+[DllImport("user32.dll")]
+public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+"@ -Name 'Win32ShowWindowAsync' -Namespace 'Win32Functions'
+
+Add-Type -MemberDefinition @"
+[DllImport("user32.dll")]
+public static extern bool IsZoomes(IntPtr hWnd);
+"@ -Name 'Win32IsZoomed' -Namespace 'Win32Functions'
+
 # read functions
 Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Functions') | ForEach-Object {
     Get-ChildItem -Path $_.FullName | ForEach-Object {
@@ -9,7 +19,7 @@ Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Functions') | For
 }
 
 try {
-    Update-PSDriveInfo
+    Update-PSDriveInfoType
     Update-FileInfoType
 }
 catch {

@@ -55,7 +55,9 @@ function Invoke-ColorizedFileListing {
         [Alias('m')]
         [string] $Highlight = [string]::Empty,
 
+        # Show size on disk.
         [Parameter()]
+        [Alias('s')]
         [switch] $ShowSizeOnDisk
     )
     
@@ -140,7 +142,7 @@ function Invoke-ColorizedFileListing {
                 $fileSizeUnit = ($fileSizeSplit[-1][0]).ToString()
                 $fileSizeValue = $fileSizeSplit[0]
 
-                if ($ShowSizeOnDisk) {
+                if (($ShowSizeOnDisk) -and (-not $file.PSIsContainer)) {
                     $fileSizeOnDisk = [Humanizer.ByteSizeExtensions]::bytes($file.SizeOnDisk).ToString(0.00)
                     $fileSizeOnDiskSplit = $fileSizeOnDisk.split(' ')
                     $fileSizeOnDiskUnit = ($fileSizeOnDiskSplit[-1][0]).ToString()
@@ -209,7 +211,7 @@ function Invoke-ColorizedFileListing {
             }
             Write-Host " $($timeNumber.PadLeft(3, ' ')) $($timeUnit.PadRight(8, ' ')) $($fileSizeValue.PadLeft(5,' ')) $($fileSizeUnit.PadRight(3,' '))" -NoNewline -ForegroundColor $defaultColor
             if ($ShowSizeOnDisk) {
-                Write-Host "($($fileSizeOnDiskValue) $($fileSizeOnDiskUnit))" -NoNewline -ForegroundColor $modeColor
+                Write-Host "$($fileSizeOnDiskValue.PadLeft(5, ' ')) $($fileSizeOnDiskUnit.PadRight(3,' '))" -NoNewline -ForegroundColor $modeColor
             }
             Write-Host "$($file.Name)" -ForegroundColor $color
             
