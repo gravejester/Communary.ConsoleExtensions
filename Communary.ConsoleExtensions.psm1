@@ -8,7 +8,7 @@ public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
 
 Add-Type -MemberDefinition @"
 [DllImport("user32.dll")]
-public static extern bool IsZoomes(IntPtr hWnd);
+public static extern bool IsZoomed(IntPtr hWnd);
 "@ -Name 'Win32IsZoomed' -Namespace 'Win32Functions'
 
 # read functions

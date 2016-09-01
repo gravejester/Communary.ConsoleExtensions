@@ -342,3 +342,5 @@ function Show-Calendar {
         Write-Output ($output | Format-Table @formatProperties -AutoSize -GroupBy @{Name = "$($translate.Month)";Expression = {"$($_.($translate.Month)) $($_.($translate.Year))"}})
     }
 }
+
+New-Alias -Name 'cal' -Value 'Show-Calendar'
