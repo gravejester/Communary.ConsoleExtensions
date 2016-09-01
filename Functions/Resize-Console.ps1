@@ -44,10 +44,10 @@ function Resize-Console {
 
     if(($PSCmdlet.ParameterSetName -eq 'Maximize') -or ($PSCmdlet.ParameterSetName -eq 'Restore')) {
 
-        $Win32ShowWindowAsync = Add-Type –memberDefinition @” 
+        $Win32ShowWindowAsync = Add-Type –memberDefinition @"
 [DllImport("user32.dll")] 
 public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow); 
-“@ -name 'Win32ShowWindowAsync' -namespace Win32Functions –passThru
+"@ -name 'Win32ShowWindowAsync' -namespace Win32Functions –passThru
 
         # get main window handle of the current process
         $MainWindowHandle = (Get-Process –id $pid).MainWindowHandle
@@ -93,10 +93,10 @@ function Get-ConsoleSize {
 }
 
 function Get-WindowState {
-    $Win32IsZoomed = Add-Type –memberDefinition @”
+    $Win32IsZoomed = Add-Type –memberDefinition @"
 [DllImport("user32.dll")]
 public static extern bool IsZoomed(IntPtr hWnd);
-“@ -name 'Win32IsZoomed' -namespace Win32Functions –passThru
+"@ -name 'Win32IsZoomed' -namespace Win32Functions –passThru
 
     if ($Win32IsZoomed::IsZoomed(((Get-Process -id $pid).MainWindowHandle))) {
         Write-Output 'Maximized'
