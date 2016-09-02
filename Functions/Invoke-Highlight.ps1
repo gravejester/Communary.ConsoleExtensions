@@ -16,7 +16,6 @@ function Invoke-Highlight {
     [CmdletBinding()]
     param (
         [Parameter(ValueFromPipeline = $true)]
-        [ValidateNotNullOrEmpty()]
         [string[]]$InputObject,
         
         # Specifies the text you want to highlight, as a regular expression.
