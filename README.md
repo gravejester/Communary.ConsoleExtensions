@@ -8,3 +8,4 @@ A set of helper functions for working in the PowerShell console.
 - Invoke-Touch (alias: 'touch')
 - Resize-Console
 - Show-Calendar (alias: 'cal')
+- Invoke-Highlight (alias: 'highlight)
