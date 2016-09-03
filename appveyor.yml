@@ -1,0 +1,31 @@
+os: "WMF 5"
+version: 1.0.{build}
+
+environment:
+  ModuleName: "Communary.ConsoleExtensions"
+  psGalleryKey:
+    secure: bsxEMSo9+lWrKb0usvlB8RtvGgFcVfV1XxLDjBmP5NwrFv5CHWXAxs2YGQrkJffc
+  githubKey:
+    secure: IXy+8vrDKX/XYOHF7izRRMC0/r+LFofjs1FPY4ZVyRzTzpwqZdMT8cbjJujzp5Wh
+
+branches:
+  only:
+    - master
+
+skip_commits:
+  message: /updated readme.*/
+
+build: off
+
+deploy_script:
+  - ps: |
+      if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'master')) {
+        Write-Host 'Publishing module to PowerShell Gallery'
+        $null = New-Item -Path $env:ModuleName -Type directory
+        [System.Version]$buildNumber = $env:APPVEYOR_BUILD_VERSION
+        Update-ModuleManifest -Path ".\$($env:ModuleName).psd1" -ModuleVersion $buildNumber
+        Push-AppveyorArtifact ".\$($env:ModuleName).psd1"
+        $null = Copy-Item "$($env:APPVEYOR_BUILD_FOLDER)\*.*" (Join-Path $env:APPVEYOR_BUILD_FOLDER $env:ModuleName) -Recurse -ErrorAction SilentlyContinue
+        $null = Get-PackageProvider -Name NuGet -ForceBootstrap
+        Publish-Module -Path (Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:ModuleName) -NuGetApiKey $env:psGalleryKey
+      }
