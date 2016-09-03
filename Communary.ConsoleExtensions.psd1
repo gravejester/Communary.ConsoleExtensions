@@ -36,7 +36,7 @@ Description = 'A set of helper functions for working in the PowerShell console.'
 # PowerShellVersion = ''
 
 # Name of the Windows PowerShell host required by this module
-PowerShellHostName = 'ConsoleHost'
+PowerShellHostName = 'ConsoleHost','RemoteHostImplementation'
 
 # Minimum version of the Windows PowerShell host required by this module
 # PowerShellHostVersion = ''
