@@ -1,4 +1,5 @@
-# Communary.ConsoleExtensions
+[![Build status](https://ci.appveyor.com/api/projects/status/5m4gq1x3ume2qadj?svg=true)](https://ci.appveyor.com/project/gravejester/communary-consoleextensions)
+
 A set of helper functions for working in the PowerShell console.
 
 ## Functions
