@@ -29,3 +29,4 @@ deploy_script:
         $null = Get-PackageProvider -Name NuGet -ForceBootstrap
         Publish-Module -Path (Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:ModuleName) -NuGetApiKey $env:psGalleryKey
       }
+      
