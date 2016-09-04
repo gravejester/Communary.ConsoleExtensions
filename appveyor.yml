@@ -24,14 +24,16 @@ deploy_script:
   - ps: |
       if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'master')) {
         Write-Host 'Publishing module to PowerShell Gallery'
-        $moduleDirectory = New-Item -Path $env:ModuleName -Type directory
         [System.Version]$buildNumber = $env:APPVEYOR_BUILD_VERSION
         Update-ModuleManifest -Path ".\$($env:ModuleName).psd1" -ModuleVersion $buildNumber
         Test-ModuleManifest -Path ".\$($env:ModuleName).psd1"
         Push-AppveyorArtifact ".\$($env:ModuleName).psd1"
-        Copy-Item -Path ".\$($env:ModuleName).psd1" -Destination $moduleDirectory
-        Copy-Item -Path ".\$($env:ModuleName).psm1" -Destination $moduleDirectory
-        Copy-Item -Path ".\LICENSE" -Destination $moduleDirectory
-        Copy-Item -Path ".\Functions" -Destination (Join-Path $moduleDirectory 'Functions' ) -Force
+        $moduleFiles = Get-ChildItem . -Recurse -Verbose
+        $moduleDirectory = New-Item -Path $env:ModuleName -Type directory -Verbose
+        Copy-Item -Path $moduleFiles -Destination $moduleDirectory -Force -Verbose
+        #Copy-Item -Path ".\$($env:ModuleName).psd1" -Destination $moduleDirectory
+        #Copy-Item -Path ".\$($env:ModuleName).psm1" -Destination $moduleDirectory
+        #Copy-Item -Path ".\LICENSE" -Destination $moduleDirectory
+        #Copy-Item -Path ".\Functions" -Destination (Join-Path $moduleDirectory 'Functions' ) -Force
         Publish-Module -Path $moduleDirectory -NuGetApiKey $env:psGalleryKey -Verbose
       }
