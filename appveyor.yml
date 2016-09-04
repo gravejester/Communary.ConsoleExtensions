@@ -27,6 +27,7 @@ deploy_script:
         [System.Version]$buildNumber = $env:APPVEYOR_BUILD_VERSION
         $manifest = Import-LocalizedData -FileName "$($env:ModuleName).psd1"
         $manifestProperties = @{
+            Path = $env:APPVEYOR_BUILD_FOLDER
             RootModule = ".\$($env:moduleName).psm1"
             Guid = $manifest.GUID
             Author = $manifest.Author
@@ -43,7 +44,7 @@ deploy_script:
         New-ModuleManifest @manifestProperties
         #Update-ModuleManifest -Path ".\$($env:ModuleName).psd1" -ModuleVersion $buildNumber
         Test-ModuleManifest -Path ".\$($env:ModuleName).psd1"
-        Push-AppveyorArtifact ".\$($env:ModuleName).psd1"
+        #Push-AppveyorArtifact ".\$($env:ModuleName).psd1"
         $moduleFiles = Get-ChildItem *
         $moduleDirectory = New-Item -Path $env:ModuleName -Type Directory
         Copy-Item -Path $moduleFiles -Destination $moduleDirectory -Recurse
