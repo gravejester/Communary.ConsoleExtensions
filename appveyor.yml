@@ -17,6 +17,7 @@ install:
   - cinst pester -y
   - ps: Install-PackageProvider -Name NuGet -Force
   - ps: Install-Module PsScriptAnalyzer -Force
+  - ps: Install-Module PowerShellHumanizer -Force
 
 build: off
 
@@ -26,22 +27,11 @@ deploy_script:
   - ps: |
       if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'master')) {
         Write-Host 'Publishing module to PowerShell Gallery'
-        #$null = New-Item -Path $env:ModuleName -Type directory
-        New-Item -Path $env:ModuleName -Type directory
+        $null = New-Item -Path $env:ModuleName -Type directory
         [System.Version]$buildNumber = $env:APPVEYOR_BUILD_VERSION
-        #Write-Host "BuildNumber: $($buildNumber)"
-        #Write-Host "Manifest: .\$($env:ModuleName).psd1"
         Update-ModuleManifest -Path ".\$($env:ModuleName).psd1" -ModuleVersion $buildNumber
-        #Write-Host "Manifest updated"
-        #Push-AppveyorArtifact ".\$($env:ModuleName).psd1"
-        #Write-Host "Artifact pushed"
-        #$null = Copy-Item "$($env:APPVEYOR_BUILD_FOLDER)\*.*" (Join-Path $env:APPVEYOR_BUILD_FOLDER $env:ModuleName) -Recurse -ErrorAction SilentlyContinue
-        Copy-Item "$($env:APPVEYOR_BUILD_FOLDER)\*.*" (Join-Path $env:APPVEYOR_BUILD_FOLDER $env:ModuleName) -Recurse -ErrorAction SilentlyContinue
-        #Write-Host "Files copied"
+        Push-AppveyorArtifact ".\$($env:ModuleName).psd1"
+        $null = Copy-Item "$($env:APPVEYOR_BUILD_FOLDER)\*.*" (Join-Path $env:APPVEYOR_BUILD_FOLDER $env:ModuleName) -Recurse -ErrorAction SilentlyContinue
         #Get-PackageProvider -Name NuGet -ForceBootstrap
-        #Write-Host "Publish path: $(Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:ModuleName)"
         Publish-Module -Path (Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:ModuleName) -NuGetApiKey $env:psGalleryKey
-        #Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER
-        #Publish-Module -Path $ENV:APPVEYOR_BUILD_FOLDER -NuGetApiKey $ENV:psGalleryKey
-        Write-Host "Module published"
       }
