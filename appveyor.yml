@@ -14,9 +14,6 @@ skip_commits:
   message: /updated readme.*/
 
 install:
-  - cinst pester -y
-  - ps: Install-PackageProvider -Name NuGet -Force
-  - ps: Install-Module PsScriptAnalyzer -Force
   - ps: Install-Module PowerShellHumanizer -Force
 
 build: off
@@ -32,6 +29,6 @@ deploy_script:
         Update-ModuleManifest -Path ".\$($env:ModuleName).psd1" -ModuleVersion $buildNumber
         Push-AppveyorArtifact ".\$($env:ModuleName).psd1"
         $null = Copy-Item "$($env:APPVEYOR_BUILD_FOLDER)\*.*" (Join-Path $env:APPVEYOR_BUILD_FOLDER $env:ModuleName) -Recurse -ErrorAction SilentlyContinue
-        #Get-PackageProvider -Name NuGet -ForceBootstrap
+        Get-PackageProvider -Name NuGet -ForceBootstrap
         Publish-Module -Path (Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:ModuleName) -NuGetApiKey $env:psGalleryKey
       }
