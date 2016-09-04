@@ -15,7 +15,6 @@ skip_commits:
 
 install:
   - ps: Get-PackageProvider -Name NuGet -ForceBootstrap | Out-Null
-  - ps: Install-Module PowerShellHumanizer -Force
 
 build: off
 
