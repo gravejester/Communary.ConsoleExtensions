@@ -34,7 +34,6 @@ deploy_script:
             CompanyName = $manifest.CompanyName
             Copyright = $manifest.Copyright
             Description = $manifest.Description
-            PrivateData = $manifest.PrivateData
             FunctionsToExport = $manifest.FunctionsToExport
             AliasesToExport = $manifest.AliasesToExport
             CmdletsToExport = $manifest.CmdletsToExport
@@ -48,5 +47,13 @@ deploy_script:
         $moduleFiles = Get-ChildItem *
         $moduleDirectory = New-Item -Path $env:ModuleName -Type Directory
         Copy-Item -Path $moduleFiles -Destination $moduleDirectory -Recurse
-        Publish-Module -Path $moduleDirectory -NuGetApiKey $env:psGalleryKey -Verbose
+        $publishProperties = @{
+            Path = $moduleDirectory
+            NuGetApiKey = $env:psGalleryKey
+            Tags = $manifest.PrivateData.PSData.Tags
+            ProjectUri = $manifest.PrivateData.PSData.ProjectUri
+            LicenseUri = $manifest.PrivateData.PSData.LicenseUri
+            Verbose = $true
+        }
+        Publish-Module @publishProperties
       }
