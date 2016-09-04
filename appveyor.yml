@@ -27,7 +27,7 @@ deploy_script:
         [System.Version]$buildNumber = $env:APPVEYOR_BUILD_VERSION
         $manifest = Import-LocalizedData -FileName "$($env:ModuleName).psd1"
         $manifestProperties = @{
-            Path = $env:APPVEYOR_BUILD_FOLDER
+            Path = "$($env:APPVEYOR_BUILD_FOLDER)\$($env:moduleName).psd1"
             RootModule = ".\$($env:moduleName).psm1"
             Guid = $manifest.GUID
             Author = $manifest.Author
