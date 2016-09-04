@@ -9,5 +9,13 @@ A set of helper functions for working in the PowerShell console.
 - Invoke-Pause (alias: 'pause')
 - Invoke-Touch (alias: 'touch')
 - Resize-Console
+- Get-ConsoleSize
+- Get-WindowState
 - Show-Calendar (alias: 'cal')
 - Invoke-Highlight (alias: 'highlight)
+
+## Installation
+```ps
+Install-Module -Name Communary.ConsoleExtensions -Scope CurrentUser
+```
+
