@@ -31,9 +31,6 @@ deploy_script:
         $moduleFiles = Get-ChildItem *
         $moduleDirectory = New-Item -Path $env:ModuleName -Type Directory
         Copy-Item -Path $moduleFiles -Destination $moduleDirectory -Recurse
-        #Copy-Item -Path ".\$($env:ModuleName).psd1" -Destination $moduleDirectory
-        #Copy-Item -Path ".\$($env:ModuleName).psm1" -Destination $moduleDirectory
-        #Copy-Item -Path ".\LICENSE" -Destination $moduleDirectory
-        #Copy-Item -Path ".\Functions" -Destination (Join-Path $moduleDirectory 'Functions' ) -Force
+        Test-ModuleManifest -Path "$(Join-Path $moduleDirectory $env:ModuleName)\$($env:ModuleName).psd1"
         Publish-Module -Path $moduleDirectory -NuGetApiKey $env:psGalleryKey -Verbose
       }
