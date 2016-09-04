@@ -51,7 +51,7 @@ Description = 'A set of helper functions for working in the PowerShell console.'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules = @('PowerShellHumanizer')
+#RequiredModules = @('PowerShellHumanizer')
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
