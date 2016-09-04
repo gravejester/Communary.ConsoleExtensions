@@ -14,7 +14,7 @@ skip_commits:
   message: /updated readme.*/
 
 install:
-  - ps: Install-PackageProvider -Name NuGet -Force
+  - ps: Get-PackageProvider -Name NuGet -ForceBootstrap | Out-Null
   - ps: Install-Module PowerShellHumanizer -Force
 
 build: off
