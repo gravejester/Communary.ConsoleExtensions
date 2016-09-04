@@ -41,6 +41,6 @@ deploy_script:
         Get-PackageProvider -Name NuGet -ForceBootstrap
         #Write-Host "Publish path: $(Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:ModuleName)"
         #Publish-Module -Path (Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:ModuleName) -NuGetApiKey $env:psGalleryKey
-        Publish-Module -Path ".\$($env:ModuleName).psd1" -NuGetApiKey $ENV:psGalleryKey
+        Publish-Module -Path $ENV:APPVEYOR_BUILD_FOLDER -NuGetApiKey $ENV:psGalleryKey
         Write-Host "Module published"
       }
