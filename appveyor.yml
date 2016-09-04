@@ -27,21 +27,21 @@ deploy_script:
       if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'master')) {
         Write-Host 'Publishing module to PowerShell Gallery'
         #$null = New-Item -Path $env:ModuleName -Type directory
-        #New-Item -Path $env:ModuleName -Type directory
+        New-Item -Path $env:ModuleName -Type directory
         [System.Version]$buildNumber = $env:APPVEYOR_BUILD_VERSION
-        Write-Host "BuildNumber: $($buildNumber)"
-        Write-Host "Manifest: .\$($env:ModuleName).psd1"
+        #Write-Host "BuildNumber: $($buildNumber)"
+        #Write-Host "Manifest: .\$($env:ModuleName).psd1"
         Update-ModuleManifest -Path ".\$($env:ModuleName).psd1" -ModuleVersion $buildNumber
-        Write-Host "Manifest updated"
+        #Write-Host "Manifest updated"
         #Push-AppveyorArtifact ".\$($env:ModuleName).psd1"
         #Write-Host "Artifact pushed"
         #$null = Copy-Item "$($env:APPVEYOR_BUILD_FOLDER)\*.*" (Join-Path $env:APPVEYOR_BUILD_FOLDER $env:ModuleName) -Recurse -ErrorAction SilentlyContinue
-        #Copy-Item "$($env:APPVEYOR_BUILD_FOLDER)\*.*" (Join-Path $env:APPVEYOR_BUILD_FOLDER $env:ModuleName) -Recurse -ErrorAction SilentlyContinue
+        Copy-Item "$($env:APPVEYOR_BUILD_FOLDER)\*.*" (Join-Path $env:APPVEYOR_BUILD_FOLDER $env:ModuleName) -Recurse
         #Write-Host "Files copied"
-        Get-PackageProvider -Name NuGet -ForceBootstrap
+        #Get-PackageProvider -Name NuGet -ForceBootstrap
         #Write-Host "Publish path: $(Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:ModuleName)"
-        #Publish-Module -Path (Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:ModuleName) -NuGetApiKey $env:psGalleryKey
-        Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER
-        Publish-Module -Path $ENV:APPVEYOR_BUILD_FOLDER -NuGetApiKey $ENV:psGalleryKey
+        Publish-Module -Path (Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:ModuleName) -NuGetApiKey $env:psGalleryKey
+        #Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER
+        #Publish-Module -Path $ENV:APPVEYOR_BUILD_FOLDER -NuGetApiKey $ENV:psGalleryKey
         Write-Host "Module published"
       }
