@@ -12,7 +12,7 @@
 RootModule = '.\Communary.ConsoleExtensions.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.1'
+ModuleVersion = '1.0.2'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -51,7 +51,7 @@ Description = 'A set of helper functions for working in the PowerShell console.'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-#RequiredModules = @('PowerShellHumanizer')
+# RequiredModules = @()
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
@@ -69,7 +69,9 @@ Description = 'A set of helper functions for working in the PowerShell console.'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = @('Get-SpecialFolder','Invoke-ColorizedFileListing','Invoke-Highlight','Invoke-Touch','Invoke-Pause','Resize-Console','Get-ConsoleSize','Get-WindowState','Show-Calendar')
+FunctionsToExport = 'Get-SpecialFolder', 'Invoke-ColorizedFileListing', 
+               'Invoke-Highlight', 'Invoke-Touch', 'Invoke-Pause', 'Resize-Console', 
+               'Get-ConsoleSize', 'Get-WindowState', 'Show-Calendar'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
