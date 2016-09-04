@@ -25,7 +25,7 @@ deploy_script:
       if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'master')) {
         Write-Host 'Publishing module to PowerShell Gallery'
         [System.Version]$buildNumber = $env:APPVEYOR_BUILD_VERSION
-        $manifest = Import-LocalizedData -FileName ".\$($env:ModuleName).psd1"
+        $manifest = Import-LocalizedData -FileName "$($env:ModuleName).psd1"
         $manifestProperties = @{
             RootModule = ".\$($env:moduleName).psm1"
             Guid = $manifest.GUID
