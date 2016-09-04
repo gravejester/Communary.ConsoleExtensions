@@ -69,7 +69,7 @@ Description = 'A set of helper functions for working in the PowerShell console.'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = @()
+FunctionsToExport = @('Get-SpecialFolder','Invoke-ColorizedFileListing','Invoke-Highlight','Invoke-Touch','Invoke-Pause','Resize-Console','Get-ConsoleSize','Get-WindowState','Show-Calendar')
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
