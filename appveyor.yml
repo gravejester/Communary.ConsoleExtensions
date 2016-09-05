@@ -14,11 +14,34 @@ skip_commits:
   message: /updated readme.*/
 
 install:
+  - cinst pester -y
   - ps: Get-PackageProvider -Name NuGet -ForceBootstrap | Out-Null
+  - ps: Install-Module PsScriptAnalyzer -Force
 
 build: off
 
-test: off
+test_script:
+  - ps: |
+      Write-Host 'Running Pester tests'
+      $testResults = '.\TestResults.xml'
+      $res = Invoke-Pester -OutputFormat NUnitXml -OutputFile $testResults -PassThru
+      Push-AppveyorArtifact $testResults
+      if ($res.FailedCount -gt 0) {
+          throw "$($res.FailedCount) tests failed."
+      }
+      Write-Host 'Running Script Analyzer'
+      Add-AppveyorTest -Name "PsScriptAnalyzer" -Outcome Running
+      $res = Get-ChildItem *.ps*1 -Recurse | Invoke-ScriptAnalyzer -Severity Error
+      if ($res) {
+          $resultString = $res | Out-String
+          Write-Warning $resultString
+          Add-AppveyorMessage -Message "PSScriptAnalyzer reported problems." -Category Error
+          Update-AppveyorTest -Name 'PsScriptAnalyzer' -Outcome Failed -ErrorMessage $resultString
+          throw 'Build failed'
+      }
+      else {
+          Update-AppveyorTest -Name "PsScriptAnalyzer" -Outcome Passed
+      }
 
 deploy_script:
   - ps: |
