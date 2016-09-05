@@ -3,6 +3,7 @@ version: 1.0.{build}
 
 environment:
   ModuleName: "Communary.ConsoleExtensions"
+  ScriptAnalyzerSeverity: "Error"
   psGalleryKey:
     secure: bsxEMSo9+lWrKb0usvlB8RtvGgFcVfV1XxLDjBmP5NwrFv5CHWXAxs2YGQrkJffc
 
@@ -23,24 +24,30 @@ build: off
 test_script:
   - ps: |
       Write-Host 'Running Pester tests'
+      Add-AppveyorTest -Name "Pester" -Outcome Running
       $testResults = '.\TestResults.xml'
       $res = Invoke-Pester -OutputFormat NUnitXml -OutputFile $testResults -PassThru
       Push-AppveyorArtifact $testResults
       if ($res.FailedCount -gt 0) {
+          Add-AppveyorMessage -Message "Pester: $($res.FailedCount) tests failed." -Category Error
+          Update-AppveyorTest -Name 'Pester' -Outcome Failed -ErrorMessage "$($res.FailedCount) tests failed."
           throw "$($res.FailedCount) tests failed."
       }
+      else {
+          Update-AppveyorTest -Name 'Pester' -Outcome Passed
+      }
       Write-Host 'Running Script Analyzer'
-      Add-AppveyorTest -Name "PsScriptAnalyzer" -Outcome Running
-      $res = Get-ChildItem *.ps*1 -Recurse | Invoke-ScriptAnalyzer -Severity Error
+      Add-AppveyorTest -Name "ScriptAnalyzer" -Outcome Running
+      $res = Get-ChildItem *.ps*1 -Recurse | Invoke-ScriptAnalyzer -Severity $env:ScriptAnalyzerSeverity
       if ($res) {
           $resultString = $res | Out-String
           Write-Warning $resultString
-          Add-AppveyorMessage -Message "PSScriptAnalyzer reported problems." -Category Error
-          Update-AppveyorTest -Name 'PsScriptAnalyzer' -Outcome Failed -ErrorMessage $resultString
-          throw 'Build failed'
+          Add-AppveyorMessage -Message "ScriptAnalyzer reported problems." -Category Error
+          Update-AppveyorTest -Name 'ScriptAnalyzer' -Outcome Failed -ErrorMessage $resultString
+          throw 'Tests failed'
       }
       else {
-          Update-AppveyorTest -Name "PsScriptAnalyzer" -Outcome Passed
+          Update-AppveyorTest -Name "ScriptAnalyzer" -Outcome Passed
       }
 
 deploy_script:
@@ -76,5 +83,11 @@ deploy_script:
             LicenseUri = $manifest.PrivateData.PSData.LicenseUri
             Verbose = $true
         }
-        Publish-Module @publishProperties
+        try {
+            Publish-Module @publishProperties
+        }
+        catch {
+            Write-Warning $_.Exception.Message
+            throw 'Deploy failed.'
+        }
       }
