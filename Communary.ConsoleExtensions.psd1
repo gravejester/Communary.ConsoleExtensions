@@ -71,7 +71,7 @@ Description = 'A set of helper functions for working in the PowerShell console.'
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = 'Get-SpecialFolder', 'Invoke-ColorizedFileListing', 
                'Invoke-Highlight', 'Invoke-Touch', 'Invoke-Pause', 'Resize-Console', 
-               'Get-ConsoleSize', 'Get-WindowState', 'Show-Calendar'
+               'Get-ConsoleSize', 'Get-WindowState', 'Show-Calendar', 'Invoke-PathShortener'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
@@ -97,7 +97,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'Console','Calendar','Touch','Color','Colour','Pause','Size','File'
+        Tags = 'Console','Calendar','Touch','Color','Colour','Pause','Size','File','Path'
 
         # A URL to the license for this module.
         LicenseUri = 'https://raw.githubusercontent.com/gravejester/Communary.ConsoleExtensions/master/LICENSE'

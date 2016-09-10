@@ -13,9 +13,11 @@ A set of helper functions for working in the PowerShell console.
 - Get-WindowState
 - Show-Calendar (alias: 'cal')
 - Invoke-Highlight (alias: 'highlight)
+- Invoke-PathShortener
 
 ## Installation
 ```ps
 Install-Module -Name Communary.ConsoleExtensions -Scope CurrentUser
 ```
 
+See also my [blog post](https://communary.net/2016/09/10/communary-consoleextensions/) about the module for examples of how to use the different functions.
