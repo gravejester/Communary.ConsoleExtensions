@@ -196,6 +196,10 @@ function Invoke-ColorizedFileListing {
                     $timeNumber = '1'
                 }
             }
+            elseif ($lastWriteTimeHumanized -eq 'yesterday') {
+                $timeNumber = 1
+                $timeUnit = 'day'
+            }
             
             # Highligh
             if ($Highlight) {
