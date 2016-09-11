@@ -114,7 +114,7 @@ function Invoke-ColorizedFileListing {
         
         if ($ShowParentDirectory) {
             Write-Host ''
-            Write-Host "    Directory: $(($files[0]).DirectoryName)"
+            Write-Host "    Directory: $(($files.Where({-not $_.PSIsContainer})[0]).DirectoryName)"
             Write-Host ''
         }
         else {
