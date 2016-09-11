@@ -197,7 +197,7 @@ function Invoke-ColorizedFileListing {
                 }
             }
             elseif ($lastWriteTimeHumanized -eq 'yesterday') {
-                $timeNumber = 1
+                $timeNumber = '1'
                 $timeUnit = 'day'
             }
             
