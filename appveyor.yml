@@ -72,6 +72,7 @@ deploy_script:
             FunctionsToExport = $manifest.FunctionsToExport
             AliasesToExport = $manifest.AliasesToExport
             CmdletsToExport = $manifest.CmdletsToExport
+            VariablesToExport = $manifest.VariablesToExport
             ModuleVersion = $buildNumber
         }
         Remove-Item -Path ".\$($env:ModuleName).psd1" -Force
