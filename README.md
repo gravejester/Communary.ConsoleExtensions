@@ -14,6 +14,7 @@ A set of helper functions for working in the PowerShell console.
 - Show-Calendar (alias: 'cal')
 - Invoke-Highlight (alias: 'highlight)
 - Invoke-PathShortener
+- Write-RGB
 
 ## Installation
 ```ps
