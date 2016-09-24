@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<!-- *******************************************************************
+These sample files contain formatting information used by the Windows 
+PowerShell engine. Do not edit or change the contents of this file 
+directly. Please see the Windows PowerShell documentation or type 
+Get-Help Update-FormatData for more information.
+
+Copyright (c) Microsoft Corporation.  All rights reserved.
+ 
+THIS SAMPLE CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY 
+OF ANY KIND,WHETHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR
+PURPOSE. IF THIS CODE AND INFORMATION IS MODIFIED, THE ENTIRE RISK OF USE
+OR RESULTS IN CONNECTION WITH THE USE OF THIS CODE AND INFORMATION 
+REMAINS WITH THE USER.
+******************************************************************** -->
+<Configuration>
+    <SelectionSets>
+        <SelectionSet>
+            <Name>FileSystemTypes</Name>
+            <Types>
+                <TypeName>System.IO.DirectoryInfo</TypeName>
+                <TypeName>System.IO.FileInfo</TypeName>
+            </Types>
+        </SelectionSet>
+    </SelectionSets>
+
+    <!-- ################ GLOBAL CONTROL DEFINITIONS ################ -->
+    <Controls>
+        <Control>
+            <Name>FileSystemTypes-GroupingFormat</Name>
+                    <CustomControl>
+                        <CustomEntries>
+                            <CustomEntry>
+                                <CustomItem>
+                                    <Frame>
+                                        <LeftIndent>4</LeftIndent>
+                                        <CustomItem>
+                                            <Text AssemblyName="System.Management.Automation" BaseName="FileSystemProviderStrings" ResourceId="DirectoryDisplayGrouping"/>
+                                            <ExpressionBinding>
+                                              <ScriptBlock>
+                                                  $_.PSParentPath.Replace("Microsoft.PowerShell.Core\FileSystem::", "")                                                  
+                                              </ScriptBlock>
+                                            </ExpressionBinding>
+                                            <NewLine/>
+                                        </CustomItem> 
+                                    </Frame>
+                                </CustomItem>
+                            </CustomEntry>
+                        </CustomEntries>
+            </CustomControl>
+        </Control>
+    </Controls>
+    
+    <!-- ################ VIEW DEFINITIONS ################ -->
+
+    <ViewDefinitions>
+       <View>
+            <Name>children</Name>
+            <ViewSelectedBy>
+                <SelectionSetName>FileSystemTypes</SelectionSetName>
+            </ViewSelectedBy>
+            <GroupBy>
+                <PropertyName>PSParentPath</PropertyName> 
+                <CustomControlName>FileSystemTypes-GroupingFormat</CustomControlName>  
+            </GroupBy>
+            <TableControl>
+                <TableHeaders>
+                   <TableColumnHeader>
+                      <Label>Mode</Label>
+                      <Width>7</Width>
+                      <Alignment>left</Alignment>
+                   </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>LastWriteTime</Label>
+                        <Width>25</Width>
+                        <Alignment>right</Alignment>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>Length</Label>
+                        <Width>14</Width>
+                        <Alignment>right</Alignment>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                      <Label>Name</Label>
+                    </TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <Wrap/>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>Mode</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    [String]::Format("{0,10}  {1,8}", $_.LastWriteTime.ToString("d"), $_.LastWriteTime.ToString("t"))
+                                </ScriptBlock>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                           	<PropertyName>Length</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    if (($host.UI.SupportsVirtualTerminal) -and (Test-Path variable:psFileColors) -and (Test-Path function:write-rgb)) {
+                                        
+                                        $file = $_
+                                        $escape = [char]27 + '['
+                                        $resetAttributes = "$($escape)0m"
+                                        
+                                        switch -regex ([System.IO.Path]::GetExtension($file.Name).Trim('.')) {
+                                            # Applications
+                                            '^(exe)$' {
+                                                $r = $psFileColors.Applications.Red
+                                                $g = $psFileColors.Applications.Green
+                                                $b = $psFileColors.Applications.Blue
+
+                                                $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
+                                            }
+                                            # Scripts
+                                            '^(ps1|cmd|bat|sh|py|rb|js|pl)$' {
+                                                $r = $psFileColors.Scripts.Red
+                                                $g = $psFileColors.Scripts.Green
+                                                $b = $psFileColors.Scripts.Blue
+
+                                                $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
+                                            }
+                                            # Modules and Assemblies
+                                            '^(psm1|dll)$' {
+                                                $r = $psFileColors.Modules.Red
+                                                $g = $psFileColors.Modules.Green
+                                                $b = $psFileColors.Modules.Blue
+
+                                                $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
+                                            }
+                                            # Data Files
+                                            '^(csv|xml|ps1xml|clixml|psd1|json)$' {
+                                                $r = $psFileColors.DataFiles.Red
+                                                $g = $psFileColors.DataFiles.Green
+                                                $b = $psFileColors.DataFiles.Blue
+
+                                                $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
+                                            }
+                                            # Text Files
+                                            '^(txt|me|md)$' {
+                                                $r = $psFileColors.TextFiles.Red
+                                                $g = $psFileColors.TextFiles.Green
+                                                $b = $psFileColors.TextFiles.Blue
+
+                                                $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
+                                            }
+                                            # Config Files
+                                            '^(conf|config|reg|ini)$' {
+                                                $r = $psFileColors.ConfigFiles.Red
+                                                $g = $psFileColors.ConfigFiles.Green
+                                                $b = $psFileColors.ConfigFiles.Blue
+
+                                                $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
+                                            }
+                                            # Documents
+                                            '^(docx?|xlsx?|pdf|html?|chm)$' {
+                                                $r = $psFileColors.Documents.Red
+                                                $g = $psFileColors.Documents.Green
+                                                $b = $psFileColors.Documents.Blue
+
+                                                $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
+                                            }
+                                            # Log Files
+                                            '^(log)$' {
+                                                $r = $psFileColors.LogFiles.Red
+                                                $g = $psFileColors.LogFiles.Green
+                                                $b = $psFileColors.LogFiles.Blue
+
+                                                $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
+                                            }
+                                            # Dump Files
+                                            '^(dmp)$' {
+                                                $r = $psFileColors.DumpFiles.Red
+                                                $g = $psFileColors.DumpFiles.Green
+                                                $b = $psFileColors.DumpFiles.Blue
+
+                                                $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
+                                            }
+                                            # Compressed Files
+                                            '^(zip|7z|rar|tar)$' {
+                                                $r = $psFileColors.CompressedFiles.Red
+                                                $g = $psFileColors.CompressedFiles.Green
+                                                $b = $psFileColors.CompressedFiles.Blue
+
+                                                $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
+                                            }
+                                            DEFAULT {$outputString = $file.Name}
+                                        }
+
+                                        if ($file.PSIsContainer) {
+                                            $r = $psFileColors.Directories.Red
+                                            $g = $psFileColors.Directories.Green
+                                            $b = $psFileColors.Directories.Blue
+
+                                            $outputString =  "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
+                                        }
+                                        
+                                        if ([bool]($file.Attributes -band [System.IO.FileAttributes]::Hidden)) {
+                                            $r = $psFileColors.Hidden.Red
+                                            $g = $psFileColors.Hidden.Green
+                                            $b = $psFileColors.Hidden.Blue
+
+                                            $outputString =  "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
+                                        }
+
+                                        if ([bool]($file.Attributes -band [System.IO.FileAttributes]::ReparsePoint)) {
+                                            $r = $psFileColors.ReparsePoints.Red
+                                            $g = $psFileColors.ReparsePoints.Green
+                                            $b = $psFileColors.ReparsePoints.Blue
+
+                                            $reparsePointTarget = [System.Win32]::GetSymbolicLinkTarget($file.FullName)
+                                            
+                                            if ($reparsePointTarget) {
+                                                $outputString += ' > '
+                                                $outputString += "$($escape)38;2;$($r);$($g);$($b)m$($reparsePointTarget)$($resetAttributes)"
+                                            }
+                                        }
+
+                                        #return
+                                        return $outputString
+                                    }
+                                    $_.Name
+                                </ScriptBlock>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+        <View>
+            <Name>children</Name>
+            <ViewSelectedBy>
+                <SelectionSetName>FileSystemTypes</SelectionSetName>
+            </ViewSelectedBy>
+            <GroupBy>
+                <PropertyName>PSParentPath</PropertyName> 
+                <CustomControlName>FileSystemTypes-GroupingFormat</CustomControlName>  
+            </GroupBy>
+            <ListControl>
+                <ListEntries>
+                    <ListEntry>
+                        <EntrySelectedBy>
+                            <TypeName>System.IO.FileInfo</TypeName>
+                        </EntrySelectedBy>
+                        <ListItems>
+                            <ListItem>
+                                <PropertyName>Name</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>Length</PropertyName>
+                            </ListItem>
+                           <ListItem>
+                                <PropertyName>CreationTime</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>LastWriteTime</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>LastAccessTime</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>Mode</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>LinkType</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>Target</PropertyName>
+                            </ListItem>                        
+                            <ListItem>
+                                <PropertyName>VersionInfo</PropertyName>
+                            </ListItem>
+                        </ListItems>
+                    </ListEntry>
+                    <ListEntry>
+                        <ListItems>
+                            <ListItem>
+                                <PropertyName>Name</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>CreationTime</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>LastWriteTime</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>LastAccessTime</PropertyName>
+                            </ListItem>
+                          <ListItem>
+                            <PropertyName>Mode</PropertyName>
+                          </ListItem>
+                          <ListItem>
+                            <PropertyName>LinkType</PropertyName>
+                          </ListItem>
+                          <ListItem>
+                            <PropertyName>Target</PropertyName>
+                          </ListItem>
+                        </ListItems>
+                    </ListEntry>
+                </ListEntries>
+            </ListControl>
+        </View>
+        <View>
+            <Name>children</Name>
+            <ViewSelectedBy>
+                <SelectionSetName>FileSystemTypes</SelectionSetName>
+            </ViewSelectedBy>
+            <GroupBy>
+                <PropertyName>PSParentPath</PropertyName> 
+                <CustomControlName>FileSystemTypes-GroupingFormat</CustomControlName>  
+            </GroupBy>
+            <WideControl>
+                <WideEntries>
+                    <WideEntry>
+                        <WideItem>
+                            <PropertyName>Name</PropertyName>
+                        </WideItem>
+                    </WideEntry>
+                    <WideEntry>
+                        <EntrySelectedBy>
+                            <TypeName>System.IO.DirectoryInfo</TypeName>
+                        </EntrySelectedBy>
+                        <WideItem>
+                            <PropertyName>Name</PropertyName>
+                            <FormatString>[{0}]</FormatString>
+                        </WideItem>
+                    </WideEntry>
+                </WideEntries>
+            </WideControl>
+        </View>
+        <View>
+            <Name>FileSecurityTable</Name>
+            <ViewSelectedBy>
+                <TypeName>System.Security.AccessControl.FileSystemSecurity</TypeName>
+            </ViewSelectedBy>
+            <GroupBy>
+                <PropertyName>PSParentPath</PropertyName> 
+                <CustomControlName>FileSystemTypes-GroupingFormat</CustomControlName>  
+            </GroupBy>
+            <TableControl>
+                <TableHeaders>
+                   <TableColumnHeader>
+                      <Label>Path</Label>
+                   </TableColumnHeader>
+                   <TableColumnHeader />
+                   <TableColumnHeader>
+                      <Label>Access</Label>
+                   </TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    split-path $_.Path -leaf
+                                </ScriptBlock>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                           	<PropertyName>Owner</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    $_.AccessToString
+                                </ScriptBlock>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+       <View>
+            <Name>FileSystemStream</Name>
+            <ViewSelectedBy>
+                <TypeName>Microsoft.PowerShell.Commands.AlternateStreamData</TypeName>
+            </ViewSelectedBy>
+            <GroupBy>
+                <PropertyName>Filename</PropertyName> 
+            </GroupBy>
+            <TableControl>
+                <TableHeaders>
+                   <TableColumnHeader>
+                      <Width>20</Width>
+                      <Alignment>left</Alignment>
+                   </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Width>10</Width>
+                        <Alignment>right</Alignment>
+                    </TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>Stream</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Length</PropertyName>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>          
+    </ViewDefinitions>
+</Configuration>

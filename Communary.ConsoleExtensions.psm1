@@ -1,6 +1,10 @@
 # Communary.ConsoleExtensions
 # Author: Øyvind Kallstad
 
+if (Get-Module -Name PowerShellHumanizer -ListAvailable) {
+    Import-Module -Name PowerShellHumanizer
+}
+
 class RGB {
     [ValidateRange(0,255)]
     [int] $Red
@@ -157,6 +161,22 @@ $global:colors = @{
     YellowGreen = [rgb]::new(154,205,50)
 }
 
+$Global:psFileColors = @{
+    Directories = [rgb]::new(240,230,140)
+    Applications = [rgb]::new(119,136,153)
+    Scripts = [rgb]::new(165,42,42)
+    Modules = [rgb]::new(0,191,255)
+    DataFiles = [rgb]::new(210,105,30)
+    TextFiles = [rgb]::new(255,140,0)
+    LogFiles = [rgb]::new(255,215,0)
+    ConfigFiles = [rgb]::new(221,160,221)
+    Documents = [rgb]::new(255,222,173)
+    CompressedFiles = [rgb]::new(124,252,0)
+    Hidden = [rgb]::new(105,105,105)
+    DumpFiles = [rgb]::new(255,69,0)
+    ReparsePoints = [rgb]::new(248,248,255)
+}
+
 if (-not ([System.Management.Automation.PSTypeName]'Win32Functions.Win32ShowWindowAsync').Type) {
     Add-Type -MemberDefinition @"
 [DllImport("user32.dll")]
@@ -169,6 +189,43 @@ if (-not ([System.Management.Automation.PSTypeName]'Win32Functions.Win32IsZoomed
 [DllImport("user32.dll")]
 public static extern bool IsZoomed(IntPtr hWnd);
 "@ -Name 'Win32IsZoomed' -Namespace 'Win32Functions'
+}
+
+# Found at http://stackoverflow.com/a/16926224/3940558
+if (-not ([System.Management.Automation.PSTypeName]'System.Win32').Type) {
+    Add-Type -MemberDefinition @"
+private const int FILE_SHARE_READ = 1;
+private const int FILE_SHARE_WRITE = 2;
+
+private const int CREATION_DISPOSITION_OPEN_EXISTING = 3;
+private const int FILE_FLAG_BACKUP_SEMANTICS = 0x02000000;
+
+[DllImport("kernel32.dll", EntryPoint = "GetFinalPathNameByHandleW", CharSet = CharSet.Unicode, SetLastError = true)]
+ public static extern int GetFinalPathNameByHandle(IntPtr handle, [In, Out] StringBuilder path, int bufLen, int flags);
+
+[DllImport("kernel32.dll", EntryPoint = "CreateFileW", CharSet = CharSet.Unicode, SetLastError = true)]
+ public static extern SafeFileHandle CreateFile(string lpFileName, int dwDesiredAccess, int dwShareMode,
+ IntPtr SecurityAttributes, int dwCreationDisposition, int dwFlagsAndAttributes, IntPtr hTemplateFile);
+
+ public static string GetSymbolicLinkTarget(System.IO.DirectoryInfo symlink)
+ {
+     SafeFileHandle directoryHandle = CreateFile(symlink.FullName, 0, 2, System.IntPtr.Zero, CREATION_DISPOSITION_OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, System.IntPtr.Zero);
+     if(directoryHandle.IsInvalid)
+     throw new Win32Exception(Marshal.GetLastWin32Error());
+
+     StringBuilder path = new StringBuilder(512);
+     int size = GetFinalPathNameByHandle(directoryHandle.DangerousGetHandle(), path, path.Capacity, 0);
+     if (size<0)
+     throw new Win32Exception(Marshal.GetLastWin32Error());
+     // The remarks section of GetFinalPathNameByHandle mentions the return being prefixed with "\\?\"
+     // More information about "\\?\" here -> http://msdn.microsoft.com/en-us/library/aa365247(v=VS.85).aspx
+     if (path[0] == '\\' && path[1] == '\\' && path[2] == '?' && path[3] == '\\')
+     return path.ToString().Substring(4);
+     else
+     return path.ToString();
+ }
+"@ -Name Win32 -NameSpace System -UsingNamespace System.Text,Microsoft.Win32.SafeHandles,System.ComponentModel
+
 }
 
 # read functions
@@ -185,3 +242,5 @@ try {
 catch {
     Write-Warning $_.Exception.Message
 }
+
+Update-FormatData -PrependPath (Join-Path -Path $PSScriptRoot -ChildPath 'customFormats.ps1xml')
