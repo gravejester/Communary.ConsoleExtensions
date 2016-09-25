@@ -16,6 +16,13 @@ A set of helper functions for working in the PowerShell console.
 - Invoke-PathShortener
 - Write-RGB
 
+The module also includes a custom formats data file that includes colorization and customization to the standard file listing using Get-ChildItem (alias 'ls' and 'dir').
+
+Three global variables are also included:
+- colors (List of predefined colors)
+- psFileColors (Defines the different colors used in the colorization of files and folders)
+- psFormatsOptions (Options for the custom formats file - used to turn on/off humanizing Date and Size)
+
 ## Installation
 ```ps
 Install-Module -Name Communary.ConsoleExtensions -Scope CurrentUser
