@@ -79,11 +79,27 @@
                             </TableColumnItem>
                             <TableColumnItem>
                                 <ScriptBlock>
-                                    [String]::Format("{0,10}  {1,8}", $_.LastWriteTime.ToString("d"), $_.LastWriteTime.ToString("t"))
+                                    if (($psFormatsOptions.HumanizeDate) -and ($psFormatsOptions.HumanizerInstalled)) {
+                                        [Humanizer.DateHumanizeExtensions]::Humanize($_.LastWriteTime,$false)
+                                    }
+                                    else {
+                                        [String]::Format("{0,10}  {1,8}", $_.LastWriteTime.ToString("d"), $_.LastWriteTime.ToString("t"))
+                                    }
                                 </ScriptBlock>
                             </TableColumnItem>
                             <TableColumnItem>
-                           	<PropertyName>Length</PropertyName>
+                                <ScriptBlock>
+                                    if (-not $_.PSIsContainer) {
+                                        if (($psFormatsOptions.HumanizeSize) -and ($psFormatsOptions.HumanizerInstalled)) {
+                                            $sizeString = [Humanizer.ByteSizeExtensions]::bytes($_.Length).ToString(0.00)
+                                            $sizeSplit = $sizeString.Split(' ')
+                                            "$($sizeSplit[0]) $(($sizeSplit[-1][0]).ToString())"
+                                        }
+                                        else {
+                                            $_.Length
+                                        }
+                                    }
+                                </ScriptBlock>
                             </TableColumnItem>
                             <TableColumnItem>
                                 <ScriptBlock>

@@ -177,6 +177,16 @@ $Global:psFileColors = @{
     ReparsePoints = [rgb]::new(248,248,255)
 }
 
+$Global:psFormatsOptions = @{
+    HumanizerInstalled = $false
+    HumanizeDate = $false
+    HumanizeSize = $false
+}
+
+if (Get-Module -Name PowerShellHumanizer -ListAvailable) {
+    $Global:psFormatsOptions.HumanizerInstalled = $true
+}
+
 if (-not ([System.Management.Automation.PSTypeName]'Win32Functions.Win32ShowWindowAsync').Type) {
     Add-Type -MemberDefinition @"
 [DllImport("user32.dll")]
