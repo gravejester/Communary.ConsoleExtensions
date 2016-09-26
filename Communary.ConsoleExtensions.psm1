@@ -158,13 +158,13 @@ $global:colors = @{
 }
 
 $Global:psFileColors = @{
-    Directories = [rgb]::new(240,230,140)
-    Applications = [rgb]::new(119,136,153)
-    Scripts = [rgb]::new(165,42,42)
+    Directories = [rgb]::new(236,208,120)
+    Applications = [rgb]::new(246,114,128)
+    Scripts = [rgb]::new(192,108,132)
     Modules = [rgb]::new(0,191,255)
     DataFiles = [rgb]::new(210,105,30)
-    TextFiles = [rgb]::new(255,140,0)
-    LogFiles = [rgb]::new(255,215,0)
+    TextFiles = [rgb]::new(81,149,72)
+    LogFiles = [rgb]::new(22,147,167)
     ConfigFiles = [rgb]::new(221,160,221)
     Documents = [rgb]::new(255,222,173)
     CompressedFiles = [rgb]::new(124,252,0)

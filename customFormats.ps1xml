@@ -119,7 +119,7 @@
                                                 $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
                                             }
                                             # Scripts
-                                            '^(ps1|cmd|bat|sh|py|rb|js|pl)$' {
+                                            '^(ps1|cmd|bat|sh|py|rb|js|pl|vbs)$' {
                                                 $r = $psFileColors.Scripts.Red
                                                 $g = $psFileColors.Scripts.Green
                                                 $b = $psFileColors.Scripts.Blue
@@ -135,7 +135,7 @@
                                                 $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
                                             }
                                             # Data Files
-                                            '^(csv|xml|ps1xml|clixml|psd1|json)$' {
+                                            '^(csv|xml|ps1xml|clixml|psd1|json|yml)$' {
                                                 $r = $psFileColors.DataFiles.Red
                                                 $g = $psFileColors.DataFiles.Green
                                                 $b = $psFileColors.DataFiles.Blue
@@ -334,7 +334,7 @@
                                                 $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
                                             }
                                             # Scripts
-                                            '^(ps1|cmd|bat|sh|py|rb|js|pl)$' {
+                                            '^(ps1|cmd|bat|sh|py|rb|js|pl|vbs)$' {
                                                 $r = $psFileColors.Scripts.Red
                                                 $g = $psFileColors.Scripts.Green
                                                 $b = $psFileColors.Scripts.Blue
@@ -350,7 +350,7 @@
                                                 $outputString = "$($escape)38;2;$($r);$($g);$($b)m$($file.Name)$($resetAttributes)"
                                             }
                                             # Data Files
-                                            '^(csv|xml|ps1xml|clixml|psd1|json)$' {
+                                            '^(csv|xml|ps1xml|clixml|psd1|json|yml)$' {
                                                 $r = $psFileColors.DataFiles.Red
                                                 $g = $psFileColors.DataFiles.Green
                                                 $b = $psFileColors.DataFiles.Blue
