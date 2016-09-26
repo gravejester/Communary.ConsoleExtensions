@@ -50,7 +50,7 @@ function Write-RGB {
         $background = "$($escape)48;2;$($BackgroundColor.Red);$($BackgroundColor.Green);$($BackgroundColor.Blue)m"
         
         #Write-Host ($escape + $foreground + $background + $Text + $resetAttributes)
-        Write-Host ($foreground + $background + $Text + $resetAttributes)
+        Write-Host ($foreground + $background + $Text + $resetAttributes) -NoNewline:$NoNewLine
     }
 
     else {
