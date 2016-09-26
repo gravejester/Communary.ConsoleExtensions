@@ -71,13 +71,14 @@ Description = 'A set of helper functions for working in the PowerShell console.'
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = 'Get-SpecialFolder', 'Invoke-ColorizedFileListing', 
                'Invoke-Highlight', 'Invoke-Touch', 'Invoke-Pause', 'Resize-Console', 
-               'Get-ConsoleSize', 'Get-WindowState', 'Show-Calendar', 'Invoke-PathShortener','Write-RGB'
+               'Get-ConsoleSize', 'Get-WindowState', 'Show-Calendar', 'Invoke-PathShortener','Write-RGB',
+               'Test-IsAdmin', 'Set-Prompt', 'Set-PowerlinePrompt'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
 
 # Variables to export from this module
-VariablesToExport = 'colors', 'psFileColors'
+VariablesToExport = 'colors', 'psFileColors', 'originalPrompt'
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
 AliasesToExport = 'c', 'touch', 'pause', 'cal', 'highlight'

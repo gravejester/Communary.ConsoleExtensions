@@ -15,17 +15,30 @@ A set of helper functions for working in the PowerShell console.
 - Invoke-Highlight (alias: 'highlight)
 - Invoke-PathShortener
 - Write-RGB
+- Test-IsAdmin
+- Set-Prompt
+- Set-PowerlinePrompt
 
 The module also includes a custom formats data file that includes colorization and customization to the standard file listing using Get-ChildItem (alias 'ls' and 'dir').
 
-Three global variables are also included:
+Four global variables are also included:
 - colors (List of predefined colors)
 - psFileColors (Defines the different colors used in the colorization of files and folders)
 - psFormatsOptions (Options for the custom formats file - used to turn on/off humanizing Date and Size)
+- originalPrompt (copy of the prompt at the time of loading this module)
 
 ## Installation
 ```ps
 Install-Module -Name Communary.ConsoleExtensions -Scope CurrentUser
 ```
 
-See also my [blog post](https://communary.net/2016/09/10/communary-consoleextensions/) about the module for examples of how to use the different functions.
+## Dependencies
+To get the most out of this module, the following PowerShell modules should also be installed:
+- PowerShellHumanizer
+- PSGit
+
+You should also install a powerline font if you want to get the full benefit of the Set-PowerlinePrompt function.
+
+---
+
+See my [blog post](https://communary.net/2016/09/10/communary-consoleextensions/) about the module for examples of how to use the different functions.

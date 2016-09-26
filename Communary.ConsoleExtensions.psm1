@@ -1,6 +1,8 @@
 # Communary.ConsoleExtensions
 # Author: Øyvind Kallstad
 
+$global:originalPrompt = (Get-Item function:prompt).ScriptBlock
+
 class RGB {
     [ValidateRange(0,255)]
     [int] $Red
