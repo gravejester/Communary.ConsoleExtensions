@@ -1,10 +1,6 @@
 # Communary.ConsoleExtensions
 # Author: Øyvind Kallstad
 
-if (Get-Module -Name PowerShellHumanizer -ListAvailable) {
-    Import-Module -Name PowerShellHumanizer
-}
-
 class RGB {
     [ValidateRange(0,255)]
     [int] $Red
@@ -185,6 +181,7 @@ $Global:psFormatsOptions = @{
 
 if (Get-Module -Name PowerShellHumanizer -ListAvailable) {
     $Global:psFormatsOptions.HumanizerInstalled = $true
+    Import-Module -Name PowerShellHumanizer
 }
 
 if (-not ([System.Management.Automation.PSTypeName]'Win32Functions.Win32ShowWindowAsync').Type) {
