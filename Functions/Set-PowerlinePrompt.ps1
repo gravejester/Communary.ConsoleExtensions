@@ -3,10 +3,9 @@ function Set-PowerlinePrompt {
     $global:dividerSymbolFull = [char]57520
     $global:arrowUpSymbol = [char]42779
     $global:arrowDownSymbol = [char]42780
+    $global:isAdmin = Test-IsAdmin
 
     if (Get-Module -Name 'psgit' -ListAvailable) {
-
-        $isAdmin = Test-IsAdmin
 
         $customPrompt = {
             $currentLocation = $executionContext.SessionState.Path.CurrentLocation.ToString()
