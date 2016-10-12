@@ -72,7 +72,8 @@ Description = 'A set of helper functions for working in the PowerShell console.'
 FunctionsToExport = 'Get-SpecialFolder', 'Invoke-ColorizedFileListing', 
                'Invoke-Highlight', 'Invoke-Touch', 'Invoke-Pause', 'Resize-Console', 
                'Get-ConsoleSize', 'Get-WindowState', 'Show-Calendar', 'Invoke-PathShortener','Write-RGB',
-               'Test-IsAdmin', 'Set-Prompt', 'Set-PowerlinePrompt'
+               'Test-IsAdmin', 'Set-Prompt', 'Set-PowerlinePrompt','Get-MasterVolume','Set-MasterVolume',
+               'Test-MasterVolumeIsMuted','Invoke-MuteMasterVolume','Invoke-MasterVolumeControl'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
@@ -81,7 +82,7 @@ CmdletsToExport = @()
 VariablesToExport = 'colors', 'psFileColors', 'originalPrompt'
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = 'c', 'touch', 'pause', 'cal', 'highlight'
+AliasesToExport = 'c', 'touch', 'pause', 'cal', 'highlight','vol'
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()
