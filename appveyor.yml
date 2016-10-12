@@ -43,6 +43,8 @@ test_script:
       Update-AppveyorTest -Name 'CodeCoverage' -Outcome Passed
       Write-Host 'Running Script Analyzer'
       Add-AppveyorTest -Name "ScriptAnalyzer" -Outcome Running
+      $scripts = Get-ChildItem *.ps1,*.psm1 -Recurse
+      "$($scripts.count) scripts found"
       $res = Get-ChildItem *.ps1,*.psm1 -Recurse | Invoke-ScriptAnalyzer -Severity $env:ScriptAnalyzerSeverity
       if ($res) {
           $resultString = $res | Out-String
