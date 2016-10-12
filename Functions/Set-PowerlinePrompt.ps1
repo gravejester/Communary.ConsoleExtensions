@@ -9,7 +9,13 @@ function Set-PowerlinePrompt {
 
         $customPrompt = {
             $currentLocation = $executionContext.SessionState.Path.CurrentLocation.ToString()
-            $host.UI.RawUI.WindowTitle = $currentLocation
+            if (Test-MasterVolumeIsMuted) {
+                $volumeString = '(MUTE)'
+            }
+            else {
+                $volumeString = '(' + "$(Get-MasterVolume)".PadLeft(3, ' ') + '%)'
+            }
+            $host.UI.RawUI.WindowTitle = "$($volumeString) $($currentLocation)"
 
             if ([bool]($gitStatus = Get-GitStatus -WarningAction SilentlyContinue)) {
                 $branch = $gitStatus.Branch
