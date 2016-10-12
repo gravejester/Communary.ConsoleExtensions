@@ -33,7 +33,7 @@ Four global variables are also included:
 - originalPrompt (copy of the prompt at the time of loading this module)
 
 ## Installation
-```ps
+```powershell
 Install-Module -Name Communary.ConsoleExtensions -Scope CurrentUser
 ```
 
