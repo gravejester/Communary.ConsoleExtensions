@@ -37,13 +37,13 @@ test_script:
           Update-AppveyorTest -Name 'Pester' -Outcome Passed
       }
       Add-AppveyorTest -Name 'CodeCoverage' -Outcome Running
-      $codeCoverage = Invoke-Pester -CodeCoverage (Get-ChildItem *.ps*1 -Recurse) -PassThru
+      $codeCoverage = Invoke-Pester -CodeCoverage (Get-ChildItem *.ps1,*.psm1 -Recurse) -PassThru
       $codeCoveragePercent = (($codeCoverage.CodeCoverage.NumberOfCommandsExecuted) / ($codeCoverage.CodeCoverage.NumberOfCommandsAnalyzed)) * 100
       Add-AppveyorMessage -Message "Code Coverage: $($codeCoveragePercent)%" -Category Information
       Update-AppveyorTest -Name 'CodeCoverage' -Outcome Passed
       Write-Host 'Running Script Analyzer'
       Add-AppveyorTest -Name "ScriptAnalyzer" -Outcome Running
-      $res = Get-ChildItem *.ps*1 -Recurse | Invoke-ScriptAnalyzer -Severity $env:ScriptAnalyzerSeverity
+      $res = Get-ChildItem *.ps1,*.psm1 -Recurse | Invoke-ScriptAnalyzer -Severity $env:ScriptAnalyzerSeverity
       if ($res) {
           $resultString = $res | Out-String
           Write-Warning $resultString
