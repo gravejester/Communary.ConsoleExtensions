@@ -18,6 +18,11 @@ A set of helper functions for working in the PowerShell console.
 - Test-IsAdmin
 - Set-Prompt
 - Set-PowerlinePrompt
+- Get-MasterVolume
+- Set-MasterVolume
+- Test-MasterVolumeIsMuted
+- Invoke-MuteMasterVolume
+- Invoke-MasterVolumeControl (alias: 'vol')
 
 The module also includes a custom formats data file that includes colorization and customization to the standard file listing using Get-ChildItem (alias 'ls' and 'dir').
 
