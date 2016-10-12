@@ -44,8 +44,7 @@ test_script:
       Write-Host 'Running Script Analyzer'
       Add-AppveyorTest -Name "ScriptAnalyzer" -Outcome Running
       $scripts = Get-ChildItem *.ps1,*.psm1 -Recurse
-      "$($scripts.count) scripts found"
-      $res = Get-ChildItem *.ps1,*.psm1 -Recurse | Invoke-ScriptAnalyzer -Severity $env:ScriptAnalyzerSeverity
+      $res = Get-ChildItem *.ps1,*.psm1 -Recurse | Invoke-ScriptAnalyzer -Severity $env:ScriptAnalyzerSeverity -ErrorAction SilentlyContinue
       if ($res) {
           $resultString = $res | Out-String
           Write-Warning $resultString
