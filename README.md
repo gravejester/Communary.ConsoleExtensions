@@ -23,6 +23,7 @@ A set of helper functions for working in the PowerShell console.
 - Test-MasterVolumeIsMuted
 - Invoke-MuteMasterVolume
 - Invoke-MasterVolumeControl (alias: 'vol')
+- Get-ArchiveContents (alias: 'peek')
 
 The module also includes a custom formats data file that includes colorization and customization to the standard file listing using Get-ChildItem (alias 'ls' and 'dir').
 
