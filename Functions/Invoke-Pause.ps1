@@ -43,5 +43,3 @@ function Invoke-Pause {
         }
     }
 }
-
-New-Alias -Name 'Pause' -Value 'Invoke-Pause' -Force
