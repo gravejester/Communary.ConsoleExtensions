@@ -121,8 +121,22 @@ function Invoke-ColorizedFileListing {
             Write-Host ''
         }
     
+        #write-host "Mode                LastWriteTime         Length Name"
+        #write-host "----                -------------         ------ ----"
+        if ($ShowOwner){
+        
+            #Write-Host " " -NoNewline -ForegroundColor $defaultColor
+            Write-Host " $("Mode".PadRight(8, ' ')) $("Owner".PadLeft(3, ' ')) $("LastWriteTime".PadRight(8, ' ').padleft(25,' ')) $("Length".PadLeft(5,' ')) $("Name".PadRight(3,' ').PadLeft(5, ' '))"  -ForegroundColor $defaultColor
+            Write-Host " $("----".PadLeft(3, ' ')) $("------------------".PadRight(8, ' ').PadLeft(15, ' ')) $("-----------".PadLeft(14,' ')) $("----".PadRight(3,' ').PadLeft(8," ")) $("----".PadRight(3,' ').PadLeft(6,' '))"  -ForegroundColor $defaultColor
+        }else{
+
+            Write-Host " $("Mode".PadLeft(3, ' ')) $("LastWriteTime".PadRight(8, ' ')) $("Length".PadLeft(5,' ')) $("Name".PadRight(3,' '))"  -ForegroundColor $defaultColor
+            Write-Host " $("----".PadLeft(3, ' ')) $("-------------".PadRight(8, ' ')) $("------".PadLeft(5,' ')) $("----".PadRight(3,' '))"  -ForegroundColor $defaultColor
+        }
+
         foreach ($file in $files) {
         
+
             # Only supported for files and folders.
             if (-not ($file.PSProvider.Name -eq 'FileSystem')) {
                 break
