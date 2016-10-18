@@ -69,8 +69,8 @@ Description = 'A set of helper functions for working in the PowerShell console.'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Get-SpecialFolder', 'Invoke-ColorizedFileListing', 
-               'Invoke-Highlight', 'Invoke-Touch', 'Invoke-Pause', 'Resize-Console', 
+FunctionsToExport = 'Get-SpecialFolder', 'Invoke-ColorizedFileListing',
+               'Invoke-Highlight', 'Invoke-Touch', 'Invoke-Pause', 'Resize-Console',
                'Get-ConsoleSize', 'Get-WindowState', 'Show-Calendar', 'Invoke-PathShortener','Write-RGB',
                'Test-IsAdmin', 'Set-Prompt', 'Set-PowerlinePrompt','Get-MasterVolume','Set-MasterVolume',
                'Test-MasterVolumeIsMuted','Invoke-MuteMasterVolume','Invoke-MasterVolumeControl',
@@ -83,7 +83,7 @@ CmdletsToExport = @()
 VariablesToExport = 'colors', 'psFileColors', 'originalPrompt'
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = 'c', 'touch', 'pause', 'cal', 'highlight','vol','peek'
+AliasesToExport = 'c', 'touch', 'cal', 'highlight','vol','peek'
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()
@@ -118,7 +118,7 @@ PrivateData = @{
         # ExternalModuleDependencies = ''
 
     } # End of PSData hashtable
-    
+
  } # End of PrivateData hashtable
 
 # HelpInfo URI of this module
